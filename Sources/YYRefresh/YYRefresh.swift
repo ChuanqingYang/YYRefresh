@@ -1,5 +1,5 @@
 import SwiftUI
-import Lottie
+//import Lottie
 
 // MARK: - Configuration
 public struct YYRefreshConfiguration {
@@ -190,45 +190,45 @@ struct YYOffsetYKey: PreferenceKey {
 }
 
 // MARK: - Lottie
-@available(iOS 13.0, *)
-public struct YYLottieView: UIViewRepresentable {
-
-    // Replace your lottie fileName
-    public var fileName:String
-    @Binding public var isPlaying:Bool
-
-    public func makeUIView(context: Context) -> UIView {
-        let view = UIView()
-        view.backgroundColor = .clear
-        addLottie(to: view)
-        return view
-    }
-
-    public func updateUIView(_ uiView: UIView, context: Context) {
-        if let view = uiView.subviews.first,let lottie = view as? LottieAnimationView {
-            if lottie.tag == 99 {
-                if isPlaying {
-                    lottie.play()
-                }else {
-                    lottie.pause()
-                }
-            }
-        }
-    }
-
-    public func addLottie(to view:UIView) {
-        let lottie = LottieAnimationView(name: fileName)
-        lottie.backgroundColor = .clear
-        lottie.translatesAutoresizingMaskIntoConstraints = false
-        lottie.tag = 99
-
-        let constraints = [
-            lottie.widthAnchor.constraint(equalTo: view.widthAnchor),
-            lottie.heightAnchor.constraint(equalTo: view.heightAnchor)
-        ]
-
-        view.addSubview(lottie)
-        view.addConstraints(constraints)
-    }
-}
-
+//@available(iOS 13.0, *)
+//public struct YYLottieView: UIViewRepresentable {
+//
+//    // Replace your lottie fileName
+//    public var fileName:String
+//    @Binding public var isPlaying:Bool
+//
+//    public func makeUIView(context: Context) -> UIView {
+//        let view = UIView()
+//        view.backgroundColor = .clear
+//        addLottie(to: view)
+//        return view
+//    }
+//
+//    public func updateUIView(_ uiView: UIView, context: Context) {
+//        if let view = uiView.subviews.first,let lottie = view as? LottieAnimationView {
+//            if lottie.tag == 99 {
+//                if isPlaying {
+//                    lottie.play()
+//                }else {
+//                    lottie.pause()
+//                }
+//            }
+//        }
+//    }
+//
+//    public func addLottie(to view:UIView) {
+//        let lottie = LottieAnimationView(name: fileName)
+//        lottie.backgroundColor = .clear
+//        lottie.translatesAutoresizingMaskIntoConstraints = false
+//        lottie.tag = 99
+//
+//        let constraints = [
+//            lottie.widthAnchor.constraint(equalTo: view.widthAnchor),
+//            lottie.heightAnchor.constraint(equalTo: view.heightAnchor)
+//        ]
+//
+//        view.addSubview(lottie)
+//        view.addConstraints(constraints)
+//    }
+//}
+//

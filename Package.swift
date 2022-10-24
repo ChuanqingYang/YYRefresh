@@ -8,10 +8,10 @@ let package = Package(
     products: [
         .library(name: "YYRefresh",targets: ["YYRefresh"]),
     ],
-    dependencies: [.package(url: "https://github.com/airbnb/lottie-ios.git", branch: "master")],
+//    dependencies: [.package(url: "https://github.com/airbnb/lottie-ios.git", branch: "master")],
     targets: [
         .target(
             name: "YYRefresh",
-            dependencies: ["Lottie"]),
+            dependencies: []),
     ]
 )
