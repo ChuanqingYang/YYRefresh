@@ -15,9 +15,9 @@ public struct YYRefreshConfiguration {
 // MARK: - YYRefresh
 public struct YYRefresh<Content:View>: View {
     
-    var config:YYRefreshConfiguration = .init()
-    var content:Content
-    var onRefrsh:()async->()
+    public var config:YYRefreshConfiguration = .init()
+    public var content:Content
+    public var onRefrsh:()async->()
     
     public init(config:YYRefreshConfiguration = .init(),@ViewBuilder content:@escaping ()->Content, onRefrsh: @escaping ()async -> ()) {
         self.config = config
@@ -26,7 +26,7 @@ public struct YYRefresh<Content:View>: View {
     }
     
     
-    @StateObject var scrollDelegate:YYScrollViewModel = .init()
+    @StateObject public var scrollDelegate:YYScrollViewModel = .init()
     
     public var body: some View {
         ScrollView(.vertical, showsIndicators: showIndicator) {
@@ -98,7 +98,7 @@ public struct YYRefresh<Content:View>: View {
 }
 
 // MARK: - For Simultanenous Pan Gesture
-class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDelegate {
+public class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDelegate {
     
     @Published var isEligible:Bool = false
     @Published var isRefreshing:Bool = false
@@ -110,36 +110,36 @@ class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDelegate {
     // from 0-1
     @Published var progress:CGFloat = 0
     
-    var config:YYRefreshConfiguration = .init()
+    public var config:YYRefreshConfiguration = .init()
     
-    init(config:YYRefreshConfiguration) {
+    public init(config:YYRefreshConfiguration) {
         self.config = config
     }
     
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
     // add gesture
-    func addGesture() {
+    public func addGesture() {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onGestureChange(gesture:)))
         panGesture.delegate = self
         
         rootController().view.addGestureRecognizer(panGesture)
     }
     // remove gesture
-    func removeGesture() {
+    public func removeGesture() {
         rootController().view.gestureRecognizers?.removeAll()
     }
     
-    func rootController() -> UIViewController {
+    public func rootController() -> UIViewController {
         guard let scence = UIApplication.shared.connectedScenes.first as? UIWindowScene else { return .init() }
         guard let root = scence.windows.first?.rootViewController else { return .init() }
         return root
     }
     
     @objc
-    func onGestureChange(gesture:UIPanGestureRecognizer) {
+    public func onGestureChange(gesture:UIPanGestureRecognizer) {
         if gesture.state == .cancelled || gesture.state == .ended {
             // limit progress
             if !isRefreshing {
@@ -156,7 +156,7 @@ class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDelegate {
 // MARK: - Offset Modifier
 extension View {
     @ViewBuilder
-    func yy_offsetY(coordinateSpace:String,offset:@escaping(CGFloat)->()) -> some View {
+    public func yy_offsetY(coordinateSpace:String,offset:@escaping(CGFloat)->()) -> some View {
         self
             .overlay {
                 GeometryReader { proxy in
@@ -180,20 +180,20 @@ struct YYOffsetYKey: PreferenceKey {
 }
 
 // MARK: - Lottie
-struct YYLottieView: UIViewRepresentable {
+public struct YYLottieView: UIViewRepresentable {
     
     // Replace your lottie fileName
-    var fileName:String
-    @Binding var isPlaying:Bool
+    public var fileName:String
+    @Binding public var isPlaying:Bool
     
-    func makeUIView(context: Context) -> UIView {
+    public func makeUIView(context: Context) -> UIView {
         let view = UIView()
         view.backgroundColor = .clear
         addLottie(to: view)
         return view
     }
     
-    func updateUIView(_ uiView: UIView, context: Context) {
+    public func updateUIView(_ uiView: UIView, context: Context) {
         if let view = uiView.subviews.first,let lottie = view as? LottieAnimationView {
             if lottie.tag == 99 {
                 if isPlaying {
@@ -205,7 +205,7 @@ struct YYLottieView: UIViewRepresentable {
         }
     }
     
-    func addLottie(to view:UIView) {
+    public func addLottie(to view:UIView) {
         let lottie = LottieAnimationView(name: fileName)
         lottie.backgroundColor = .clear
         lottie.translatesAutoresizingMaskIntoConstraints = false
