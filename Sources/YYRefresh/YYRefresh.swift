@@ -10,9 +10,14 @@ public struct YYRefreshConfiguration {
     public var maxHeight:CGFloat = 150
     public var pull_to_refresh = "Pull To Refresh"
     public var release_to_refresh = "Release To Refresh"
+    
+    public init() {
+      
+    }
 }
 
 // MARK: - YYRefresh
+@available(iOS 15.0, *)
 public struct YYRefresh<Content:View>: View {
     
     public var config:YYRefreshConfiguration = .init()
@@ -23,15 +28,18 @@ public struct YYRefresh<Content:View>: View {
         self.config = config
         self.content = content()
         self.onRefrsh = onRefrsh
+        
+        self.scrollDelegate.config = config
     }
     
     
-    @StateObject public var scrollDelegate:YYScrollViewModel = .init()
+    @StateObject public var scrollDelegate:YYScrollViewModel = .init(config: .init())
     
     public var body: some View {
-        ScrollView(.vertical, showsIndicators: showIndicator) {
+        ScrollView(.vertical, showsIndicators: self.config.showScrollIndicator) {
             VStack(spacing: 0) {
-                YYLottieView(isPlaying: $scrollDelegate.isRefreshing)
+//                YYLottieView(fileName: self.config.lottieFileName, isPlaying: $scrollDelegate.isRefreshing)
+                Rectangle()
                     .scaleEffect(scrollDelegate.isEligible ? 1 : 0.001)
                     .animation(.easeInOut(duration: 0.2), value: scrollDelegate.isEligible)
                 // MARK: - Arrow & Text
@@ -98,6 +106,7 @@ public struct YYRefresh<Content:View>: View {
 }
 
 // MARK: - For Simultanenous Pan Gesture
+@available(iOS 13.0, *)
 public class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDelegate {
     
     @Published var isEligible:Bool = false
@@ -154,6 +163,7 @@ public class YYScrollViewModel:NSObject,ObservableObject,UIGestureRecognizerDele
 }
 
 // MARK: - Offset Modifier
+@available(iOS 15.0, *)
 extension View {
     @ViewBuilder
     public func yy_offsetY(coordinateSpace:String,offset:@escaping(CGFloat)->()) -> some View {
@@ -180,19 +190,20 @@ struct YYOffsetYKey: PreferenceKey {
 }
 
 // MARK: - Lottie
+@available(iOS 13.0, *)
 public struct YYLottieView: UIViewRepresentable {
-    
+
     // Replace your lottie fileName
     public var fileName:String
     @Binding public var isPlaying:Bool
-    
+
     public func makeUIView(context: Context) -> UIView {
         let view = UIView()
         view.backgroundColor = .clear
         addLottie(to: view)
         return view
     }
-    
+
     public func updateUIView(_ uiView: UIView, context: Context) {
         if let view = uiView.subviews.first,let lottie = view as? LottieAnimationView {
             if lottie.tag == 99 {
@@ -204,18 +215,18 @@ public struct YYLottieView: UIViewRepresentable {
             }
         }
     }
-    
+
     public func addLottie(to view:UIView) {
         let lottie = LottieAnimationView(name: fileName)
         lottie.backgroundColor = .clear
         lottie.translatesAutoresizingMaskIntoConstraints = false
         lottie.tag = 99
-        
+
         let constraints = [
             lottie.widthAnchor.constraint(equalTo: view.widthAnchor),
             lottie.heightAnchor.constraint(equalTo: view.heightAnchor)
         ]
-        
+
         view.addSubview(lottie)
         view.addConstraints(constraints)
     }
