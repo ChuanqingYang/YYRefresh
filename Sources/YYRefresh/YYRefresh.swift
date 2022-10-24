@@ -2,14 +2,14 @@ import SwiftUI
 import Lottie
 
 // MARK: - Configuration
-struct YYRefreshConfiguration {
-    var lottieFileName:String = "Loading"
-    var showScrollIndicator:Bool = false
+public struct YYRefreshConfiguration {
+    public var lottieFileName:String = "Loading"
+    public var showScrollIndicator:Bool = false
     // SF Symbol Name
-    var refreshIndicator:String = "arrow.down"
-    var maxHeight:CGFloat = 150
-    var pull_to_refresh = "Pull To Refresh"
-    var release_to_refresh = "Release To Refresh"
+    public var refreshIndicator:String = "arrow.down"
+    public var maxHeight:CGFloat = 150
+    public var pull_to_refresh = "Pull To Refresh"
+    public var release_to_refresh = "Release To Refresh"
 }
 
 // MARK: - YYRefresh
@@ -19,7 +19,7 @@ public struct YYRefresh<Content:View>: View {
     var content:Content
     var onRefrsh:()async->()
     
-    init(config:YYRefreshConfiguration = .init(),@ViewBuilder content:@escaping ()->Content, onRefrsh: @escaping ()async -> ()) {
+    public init(config:YYRefreshConfiguration = .init(),@ViewBuilder content:@escaping ()->Content, onRefrsh: @escaping ()async -> ()) {
         self.config = config
         self.content = content()
         self.onRefrsh = onRefrsh
@@ -28,7 +28,7 @@ public struct YYRefresh<Content:View>: View {
     
     @StateObject var scrollDelegate:YYScrollViewModel = .init()
     
-    var body: some View {
+    public var body: some View {
         ScrollView(.vertical, showsIndicators: showIndicator) {
             VStack(spacing: 0) {
                 YYLottieView(isPlaying: $scrollDelegate.isRefreshing)
