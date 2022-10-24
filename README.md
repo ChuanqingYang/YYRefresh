@@ -4,6 +4,10 @@ A Custom Pull_To_Refresh Widget Code by `SwiftUI`.
 
 THANKS To [kavsoft](https://www.youtube.com/watch?v=5rD5GhYVBPg)
 
+# Preview
+
+![](https://github.com/ChuanqingYang/YYRefresh/blob/main/refresh.gif)
+
 # Usage
  
 1.SPM `https://github.com/ChuanqingYang/YYRefresh.git`
