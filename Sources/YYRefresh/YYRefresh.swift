@@ -38,8 +38,7 @@ public struct YYRefresh<Content:View>: View {
     public var body: some View {
         ScrollView(.vertical, showsIndicators: self.config.showScrollIndicator) {
             VStack(spacing: 0) {
-//                YYLottieView(fileName: self.config.lottieFileName, isPlaying: $scrollDelegate.isRefreshing)
-                Rectangle()
+                YYLottieView(fileName: self.config.lottieFileName, isPlaying: $scrollDelegate.isRefreshing)
                     .scaleEffect(scrollDelegate.isEligible ? 1 : 0.001)
                     .animation(.easeInOut(duration: 0.2), value: scrollDelegate.isEligible)
                 // MARK: - Arrow & Text
